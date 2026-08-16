@@ -3,6 +3,7 @@ const {
   OK,
   CREATED,
   BAD_REQUEST,
+  FORBIDDEN,
   NOT_FOUND,
   SERVER_ERROR,
 } = require("../utils/errors");
@@ -43,9 +44,17 @@ const createItem = (req, res) => {
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
 
-  ClothingItem.findByIdAndDelete(itemId)
+  ClothingItem.findById(itemId)
     .orFail()
-    .then((item) => res.status(OK).send(item))
+    .then((item) => {
+      if (item.owner.toString() !== req.user._id) {
+        return res.status(FORBIDDEN).send({
+          message: "You do not have permission to delete this item",
+        });
+      }
+
+      return item.deleteOne().then(() => res.status(OK).send(item));
+    })
     .catch((err) => {
       console.error(err);
 
