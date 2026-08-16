@@ -13,12 +13,7 @@ const {
 } = require("../utils/errors");
 
 const createUser = (req, res) => {
-  const {
-    name,
-    avatar,
-    email,
-    password,
-  } = req.body;
+  const { name, avatar, email, password } = req.body;
 
   if (!password || typeof password !== "string") {
     return res.status(BAD_REQUEST).send({
@@ -28,12 +23,14 @@ const createUser = (req, res) => {
 
   return bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({
-      name,
-      avatar,
-      email,
-      password: hash,
-    }))
+    .then((hash) =>
+      User.create({
+        name,
+        avatar,
+        email,
+        password: hash,
+      })
+    )
     .then((user) => {
       const userData = user.toObject();
       delete userData.password;
@@ -63,6 +60,12 @@ const createUser = (req, res) => {
 
 const login = (req, res) => {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(BAD_REQUEST).send({
+      message: "Email and password are required",
+    });
+  }
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
@@ -112,7 +115,7 @@ const updateProfile = (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name, avatar },
-    { new: true, runValidators: true },
+    { new: true, runValidators: true }
   )
     .orFail()
     .then((user) => res.status(OK).send(user))
