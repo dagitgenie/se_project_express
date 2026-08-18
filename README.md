@@ -20,6 +20,8 @@ The server can currently:
 - Allow users to delete only the clothing items they created
 - Check that the information being entered is valid
 - Return helpful responses when something goes wrong
+- Record server requests and errors in log files
+- Recover automatically after a crash when the deployed app is managed by PM2
 
 ## Technologies and Techniques Used
 
@@ -28,11 +30,13 @@ The server can currently:
 - **MongoDB** to store the application's information
 - **Mongoose** to work with the MongoDB database
 - **Validator** to check email addresses and URLs
+- **Celebrate and Joi** to check request data before it reaches a controller
 - **bcryptjs** to protect user passwords
 - **JSON Web Tokens** to keep users signed in
 - **CORS** to allow the front end to communicate with the server
 - Routes, controllers, models, and middleware to keep the code organized
-- Error handling to respond when data is invalid or cannot be found
+- Centralized error handling and custom error classes
+- **Winston** to log requests and errors
 - **Nodemon** to restart the server while I work
 - **ESLint and Prettier** to help keep the code clean and consistent
 
