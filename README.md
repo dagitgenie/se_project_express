@@ -2,6 +2,12 @@
 
 ## About the Project
 
+Live project: https://allweatherwear.twilightparadox.com
+
+API: https://api.allweatherwear.twilightparadox.com
+
+Front-end project: https://github.com/dagitgenie/se_project_react
+
 This project is focused on creating the back-end server for the WTWR application. The server stores information for users and their clothing items so the front end can work with that information.
 
 While working on this project, I am learning more about servers, databases, security, testing, and how the different parts of an application communicate with each other. Users can now create an account, sign in, update their profile, and safely manage their clothing items.
